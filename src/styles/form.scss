@@ -14,6 +14,11 @@ section {
     font-size: 1.8rem;
     color: #222;
   }
+  
+  .box-2 {
+    width: 2rem;
+    height: 2rem;
+  }
 
   form {
     display: flex;
@@ -71,6 +76,10 @@ fieldset {
     &:focus-visible {
       outline-color: var(--color-purple-dark);
     }
+
+    &::placeholder {
+      color: var(--color-gray);
+    }
   }
 
   .row {
@@ -87,6 +96,7 @@ fieldset {
     height: 5rem;
     background-color: var(--color-white-dark);
     border-radius: .3rem;
+    cursor: pointer;
 
     &:hover {
       background-color: var(--color-gray-light);
@@ -96,6 +106,7 @@ fieldset {
   input[type=radio]:checked + .option {
     color: var(--color-value);
     background-color: var(--color-value-light);
+    cursor: default;
 
     & .option-icon {
       fill: var(--color-value);
