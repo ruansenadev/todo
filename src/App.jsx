@@ -1,5 +1,8 @@
+import { TaskForm } from "./components/TaskForm";
 import "./styles/common.scss";
 
 export function App() {
-  return <h1>oi react-dom</h1>;
+  return (
+    <TaskForm />
+  );
 }

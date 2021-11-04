@@ -1,0 +1,104 @@
+html {
+  --color-white-dark: #FAFAFA;
+  --color-gray: #8B8B8B;
+  --color-gray-light: #EEE;
+  --color-purple-light: #CAC1FF;
+  --color-purple-dark: #8B1CE1;
+}
+
+section {
+  padding: 1rem;
+
+  h1 {
+    padding: 1rem;
+    font-size: 1.8rem;
+    color: #222;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    max-width: 28.6rem;
+    font-weight: 500;
+
+    button {
+      padding: .7rem 2.35rem;
+      margin: 1rem 1.7rem;
+      background-color: var(--color-value);
+      border: none;
+      border-radius: .4rem;
+      color: white;
+      font-size: 1.5rem;
+      text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15);
+      box-shadow: 0px 2px 4px #C799F1;;
+
+      &:hover {
+        background-color: var(--color-purple-dark);
+      }
+
+      &:active {
+        background-color: var(--color-purple-dark);
+        box-shadow: none;
+      }
+    }
+  }
+}
+
+fieldset {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border: none;
+
+  legend {
+    padding: .5rem;
+    font-size: 1.5rem;
+  }
+
+  input:not([hidden]) {
+    display: block;
+    width: calc(100% - 1.4rem);
+    height: 3rem;
+    margin: .7rem;
+    padding: .5rem .7rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--color-value);
+    border-radius: .5rem;
+    border: 2px solid var(--color-purple-light);
+    background-color: var(--color-white-dark);
+
+    &:focus-visible {
+      outline-color: var(--color-purple-dark);
+    }
+  }
+
+  .row {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .option {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 6rem;
+    height: 5rem;
+    background-color: var(--color-white-dark);
+    border-radius: .3rem;
+
+    &:hover {
+      background-color: var(--color-gray-light);
+    }
+  }
+
+  input[type=radio]:checked + .option {
+    color: var(--color-value);
+    background-color: var(--color-value-light);
+
+    & .option-icon {
+      fill: var(--color-value);
+    }
+  }
+}
