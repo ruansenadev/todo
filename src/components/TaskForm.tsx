@@ -2,20 +2,21 @@ import "../styles/form.scss";
 import { ILevel as Level } from "./Task";
 
 export function TaskForm() {
-  const taskTitles = ["Learn something new", "Read a book", "Visit anywhere", "Meet with someone"]
+  const taskTitles = ["Learn something new", "Read a book", "Visit anywhere", "Meet with someone"];
+  const today = new Date();
 
   return (
     <section>
       <h1>Create task</h1>
-      <form action="">
+      <form>
         <fieldset>
           <legend>Task title</legend>
-          <input className="input" type="text" name="title" placeholder={taskTitles[Math.floor(Math.random() * taskTitles.length)]} spellCheck="false" />
+          <input className="input" type="text" name="title" placeholder={taskTitles[Math.floor(Math.random() * taskTitles.length)]} spellCheck="false" maxLength={55} required />
         </fieldset>
         <fieldset>
           <legend>Select level</legend>
           <div className="row">
-            <input type="radio" name="level" value={Level.Easy} id="taskLevelEasy" hidden defaultChecked />
+            <input type="radio" name="level" value={Level.Easy} id="taskLevelEasy" hidden defaultChecked required/>
             <label className="option" htmlFor="taskLevelEasy">
               <div className="box-2">
                 <svg className="icon option-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -49,7 +50,7 @@ export function TaskForm() {
         </fieldset>
         <fieldset>
           <legend>Set due</legend>
-          <input className="input" type="datetime-local" name="due" />
+          <input className="input" type="datetime-local" name="due" min={today.toISOString().slice(0, 16)}/>
         </fieldset>
         <button type="button">Done</button>
       </form>
