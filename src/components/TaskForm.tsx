@@ -1,3 +1,4 @@
+import { nanoid } from "nanoid";
 import { FormEvent, useState } from "react";
 import "../styles/form.scss";
 import { ILevel, ITask } from "../types";
@@ -28,14 +29,14 @@ export function TaskForm({ onSubmit }: TaskFormProps) {
 		const level = Array.from(levelNodeList).find((l) => l.checked);
 
 		if (title.value && level?.value) {
-			const task: ITask = { title: title.value, level: Number(level?.value), done: false, progress: 0 };
+			const task: ITask = { id: nanoid(), title: title.value, level: Number(level?.value), done: false, progress: 0 };
 			if (due.value) {
 				task.due = new Date(due.value);
 			}
 
 			onSubmit(task);
 			clearForm(e.currentTarget);
-      setTaskTitles([...taskTitles])
+			setTaskTitles([...taskTitles]);
 		}
 	}
 

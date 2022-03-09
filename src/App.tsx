@@ -11,8 +11,15 @@ export function App() {
 		<>
 			<TaskForm onSubmit={(task) => setTasks([...tasks, task])} />
 			{tasks.map((t, i) => (
-				<Task task={t} key={"task-" + i} />
+				<Task
+					key={"task-" + i}
+					task={t}
+					onChange={(changedTask) => {
+						setTasks(tasks.map((task) => (task.id === changedTask.id ? changedTask : task)));
+					}}
+				/>
 			))}
 		</>
 	);
 }
+("");

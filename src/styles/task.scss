@@ -1,75 +1,94 @@
 html {
-  --color-white-dark: #F9F9F9;
-  --color-purple-dark: #6715B1;
+	--color-white-dark: #f9f9f9;
+	--color-purple-dark: #6715b1;
 }
 article {
-  display: flex;
-  flex-direction: column;
-  row-gap: .8rem;
-  max-width: 19rem;
-  padding: .7rem;
-  margin: 1rem auto;
-  background-color: var(--color-white-dark);
-  text-transform: uppercase;
-  border-radius: .5rem;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+	display: flex;
+	flex-direction: column;
+	row-gap: 0.8rem;
+	max-width: 19rem;
+	padding: 0.7rem;
+	margin: 1rem auto;
+	background-color: var(--color-white-dark);
+	text-transform: uppercase;
+	border-radius: 0.5rem;
+	box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
 
-  .box-3 {
-    width: 3rem;
-    height: 3rem;
-  }
-  .box-3--2 {
-    padding: .5rem;
-  }
+	.box-3 {
+		width: 3rem;
+		height: 3rem;
+	}
+	.box-3--2 {
+		padding: 0.5rem;
+	}
 
-  header {
-    display: flex;
-    column-gap: .5rem;
-    align-items: stretch;
-    color: var(--color-purple-dark);
+	header {
+		display: flex;
+		column-gap: 0.5rem;
+		align-items: stretch;
+		color: var(--color-purple-dark);
 
-    h3 {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      font-size: 1.5rem;
-      font-weight: 500;
-      text-align: justify;
-      word-break: keep-all;
-    }
-  }
+		.state {
+			cursor: pointer;
 
-  .stats {
-    display: flex;
-    flex-direction: column;
+			.state-icon--done-path {
+        fill: none;
+        stroke: var(--color-body);
+				stroke-dasharray: 31;
+				stroke-dashoffset: -31;
+				animation: sign .6s ease;
+				animation-fill-mode: forwards;
+			}
+		}
 
-    .stat {
-      display: flex;
-      align-items: center;
-      column-gap: .5rem;
-      font-weight: 500;  
-    }
-  }
+		h3 {
+			flex: 1;
+			display: flex;
+			align-items: center;
+			font-size: 1.5rem;
+			font-weight: 500;
+			text-align: justify;
+			word-break: keep-all;
+		}
+	}
 
-  footer {
-    padding-left: .5rem;
-    padding-right: .5rem;
-    display: flex;
+	.stats {
+		display: flex;
+		flex-direction: column;
 
-    .progress {
-      position: relative;
-      flex: 1;
-      height: 1rem;
-      
-      .progress-done {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 20%;
-        background-color: var(--color-data);
-        border-radius: .5rem;
-      }
-    }
-  }
+		.stat {
+			display: flex;
+			align-items: center;
+			column-gap: 0.5rem;
+			font-weight: 500;
+		}
+	}
+
+	footer {
+		padding-left: 0.5rem;
+		padding-right: 0.5rem;
+		display: flex;
+
+		.progress {
+			position: relative;
+			flex: 1;
+			height: 1rem;
+
+			.progress-done {
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				right: 20%;
+				background-color: var(--color-data);
+				border-radius: 0.5rem;
+			}
+		}
+	}
+}
+
+@keyframes sign {
+	to {
+		stroke-dashoffset: 0;
+	}
 }
