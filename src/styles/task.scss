@@ -2,7 +2,8 @@ html {
 	--color-white-dark: #f9f9f9;
 	--color-purple-dark: #6715b1;
 }
-article {
+.task {
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	row-gap: 0.8rem;
@@ -13,13 +14,41 @@ article {
 	text-transform: uppercase;
 	border-radius: 0.5rem;
 	box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+	outline-color: transparent;
+
+	&.task--active {
+		outline: var(--color-data) auto 1px;
+		transition: outline 0.4s;
+	}
 
 	.box-3 {
+    flex-shrink: 0;
 		width: 3rem;
 		height: 3rem;
 	}
 	.box-3--2 {
 		padding: 0.5rem;
+	}
+
+	.options {
+		position: absolute;
+		bottom: 100%;
+		right: 0;
+		max-width: 100%;
+		padding: 0.7rem;
+		background-color: var(--color-white-dark);
+		border-radius: 0.5rem;
+		box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.15);
+		animation: slideUp 0.2s ease-out forwards;
+		z-index: 30;
+
+		.option {
+			cursor: pointer;
+
+			&:hover .option-icon--del {
+				animation: liftRight .6s ease-in-out;
+			}
+		}
 	}
 
 	header {
@@ -32,11 +61,11 @@ article {
 			cursor: pointer;
 
 			.state-icon--done-path {
-        fill: none;
-        stroke: var(--color-body);
+				fill: none;
+				stroke: var(--color-body);
 				stroke-dasharray: 31;
 				stroke-dashoffset: -31;
-				animation: sign .6s ease;
+				animation: drawStroke 0.4s ease;
 				animation-fill-mode: forwards;
 			}
 		}
@@ -48,7 +77,7 @@ article {
 			font-size: 1.5rem;
 			font-weight: 500;
 			text-align: justify;
-			word-break: keep-all;
+			word-break: break-all;
 		}
 	}
 
@@ -87,8 +116,35 @@ article {
 	}
 }
 
-@keyframes sign {
+@keyframes drawStroke {
 	to {
 		stroke-dashoffset: 0;
+	}
+}
+
+@keyframes slideUp {
+	to {
+		transform: translateY(-0.5rem);
+	}
+}
+
+@keyframes liftRight {
+	30% {
+		transform: rotate(-15deg);
+	}
+	60% {
+		transform: rotate(0);
+	}
+	70% {
+		transform: rotate(-5deg);
+	}
+	80% {
+		transform: rotate(0);
+	}
+	90% {
+		transform: rotate(4deg);
+	}
+	100% {
+		transform: rotate(0);
 	}
 }

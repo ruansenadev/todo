@@ -3,6 +3,8 @@ import { FormEvent, useState } from "react";
 import "../styles/form.scss";
 import { ILevel, ITask } from "../types";
 
+const taskTitles = ["Learn something new", "Read a book", "Visit anywhere", "Meet with someone"];
+
 interface TaskFormData {
 	title: { value: string };
 	level: NodeListOf<Node & { checked: boolean; value: ILevel }>;
@@ -14,7 +16,7 @@ interface TaskFormProps {
 }
 
 export function TaskForm({ onSubmit }: TaskFormProps) {
-	const [taskTitles, setTaskTitles] = useState(["Learn something new", "Read a book", "Visit anywhere", "Meet with someone"]);
+	const [titleIndex, setTitleIndex] = useState<number>(Math.floor(Math.random() * taskTitles.length));
 	const today = new Date();
 
 	function clearForm(form: HTMLFormElement) {
@@ -36,7 +38,7 @@ export function TaskForm({ onSubmit }: TaskFormProps) {
 
 			onSubmit(task);
 			clearForm(e.currentTarget);
-			setTaskTitles([...taskTitles]);
+			setTitleIndex(Math.floor(Math.random() * taskTitles.length));
 		}
 	}
 
@@ -53,7 +55,7 @@ export function TaskForm({ onSubmit }: TaskFormProps) {
 						className="input"
 						type="text"
 						name="title"
-						placeholder={taskTitles[Math.floor(Math.random() * taskTitles.length)]}
+						placeholder={taskTitles[titleIndex]}
 						spellCheck="false"
 						maxLength={55}
 						required

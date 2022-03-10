@@ -10,12 +10,16 @@ export function App() {
 	return (
 		<>
 			<TaskForm onSubmit={(task) => setTasks([...tasks, task])} />
-			{tasks.map((t, i) => (
+
+			{tasks.map((task) => (
 				<Task
-					key={"task-" + i}
-					task={t}
-					onChange={(changedTask) => {
-						setTasks(tasks.map((task) => (task.id === changedTask.id ? changedTask : task)));
+					key={task.id}
+					task={task}
+					onChange={(cT) => {
+						setTasks(tasks.map((t) => (t.id !== cT.id ? t : cT)));
+					}}
+					onDelete={(id) => {
+						setTasks(tasks.filter((t) => t.id !== id));
 					}}
 				/>
 			))}

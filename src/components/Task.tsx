@@ -1,33 +1,82 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import "../styles/task.scss";
 import { ILevel, ITask } from "../types";
-import { taskDateFormatter } from "../utils";
+import { taskDateFormatter, useOnClickOutside } from "../utils";
 
 interface TaskProps {
 	task: ITask;
 	onChange: (task: ITask) => void;
+	onDelete: (id: string) => void;
 }
 
-export function Task({ task: initialTask }: TaskProps) {
+export function Task({ task: initialTask, onChange, onDelete }: TaskProps) {
 	const [task, setTask] = useState<ITask>(initialTask);
+	const [isActive, setIsActive] = useState(false);
+	const taskRef = useRef<HTMLElement>(null);
+	const [isHolding, setIsHolding] = useState(false);
+	const [holdTimer, setHoldTimer] = useState<any>();
+
+	useOnClickOutside(taskRef, () => setIsActive(false));
+
+  function handleDelete() {
+    onDelete(task.id);
+  }
+
+	useEffect(() => {
+		onChange(task);
+	}, [task]);
+
+	useEffect(() => {
+		if (isHolding) {
+			setHoldTimer(setTimeout(() => setIsActive(!isActive), 300));
+		} else {
+			setHoldTimer(clearTimeout(holdTimer));
+		}
+	}, [isHolding]);
 
 	return (
-		<article>
+		<article
+			ref={taskRef}
+			className={`task${isActive ? " task--active" : ""}`}
+			tabIndex={0}
+			onPointerDown={() => setIsHolding(true)}
+			onPointerUp={() => setIsHolding(false)}
+		>
 			<header>
+				{isActive && (
+					<div className="options" onPointerDown={(e) => e.stopPropagation()} onPointerUp={(e) => e.stopPropagation()}>
+						{/* button trash */}
+						<div className="box-3 option" onClick={handleDelete}>
+							<svg className="icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+								<path
+									className="option-icon--del"
+									d="M20 8C19.1716 8 18.5 8.67157 18.5 9.5V11H10C9.17157 11 8.5 11.6716 8.5 12.5C8.5 13.3284 9.17157 14 10 14H38C38.8284 14 39.5 13.3284 39.5 12.5C39.5 11.6716 38.8284 11 38 11H29.5V9.5C29.5 8.67157 28.8284 8 28 8H20Z"
+								/>
+								<path d="M26.1213 30L29.0607 32.9393C29.6464 33.5251 29.6464 34.4749 29.0607 35.0606C28.4749 35.6464 27.5251 35.6464 26.9393 35.0606L24 32.1213L21.0607 35.0607C20.4749 35.6464 19.5251 35.6464 18.9394 35.0607C18.3536 34.4749 18.3536 33.5251 18.9394 32.9393L21.8787 30L18.9393 27.0606C18.3536 26.4749 18.3536 25.5251 18.9393 24.9393C19.5251 24.3535 20.4749 24.3535 21.0607 24.9393L24 27.8787L26.9394 24.9393C27.5251 24.3536 28.4749 24.3536 29.0607 24.9393C29.6465 25.5251 29.6465 26.4749 29.0607 27.0607L26.1213 30Z" />
+								<path
+									fillRule="evenodd"
+									clipRule="evenodd"
+									d="M11.9828 15.8344C12.0673 15.0747 12.7094 14.5 13.4737 14.5H34.5263C35.2906 14.5 35.9327 15.0747 36.0171 15.8344L36.4174 19.437C37.1431 25.9677 37.1431 32.5586 36.4174 39.0893L36.378 39.4439C36.09 42.0363 34.0809 44.1033 31.4978 44.4649C26.5235 45.1613 21.4765 45.1613 16.5022 44.4649C13.9191 44.1033 11.91 42.0362 11.622 39.4439L11.5826 39.0893C10.8569 32.5586 10.8569 25.9677 11.5826 19.437L11.9828 15.8344ZM14.8162 17.5L14.5642 19.7683C13.863 26.0788 13.863 32.4475 14.5642 38.758L14.6036 39.1126C14.7402 40.3421 15.693 41.3224 16.9181 41.4939C21.6164 42.1517 26.3835 42.1517 31.0819 41.4939C32.3069 41.3224 33.2598 40.3421 33.3964 39.1126L33.4358 38.758C34.1369 32.4475 34.1369 26.0788 33.4358 19.7683L33.1837 17.5H14.8162Z"
+								/>
+							</svg>
+						</div>
+					</div>
+				)}
 				<div className="box-3 state" onClick={() => setTask({ ...task, done: !task.done })}>
+					{/* button check done */}
 					{task.done ? (
 						<svg className="icon state-icon--done" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
 							<path d="M13.9193 11.4991C11.6305 11.7549 9.79836 13.5614 9.53354 15.8256C8.82215 21.9079 8.82215 28.0524 9.53354 34.1346C9.79836 36.3989 11.6305 38.2054 13.9193 38.4612C19.873 39.1266 26.0322 39.1266 31.9859 38.4612C34.2747 38.2054 36.1069 36.3989 36.3717 34.1346C36.8828 29.7644 37.0267 25.362 36.8033 20.9736C36.7975 20.8603 36.8399 20.7497 36.9201 20.6695L38.9976 18.5919C39.2381 18.3515 39.649 18.5018 39.6745 18.8409C40.0666 24.0508 39.9589 29.2888 39.3514 34.4832C38.9217 38.1571 35.9719 41.0344 32.3191 41.4426C26.144 42.1328 19.7612 42.1328 13.5861 41.4426C9.93334 41.0344 6.98354 38.1571 6.55385 34.4832C5.81538 28.1693 5.81538 21.7909 6.55385 15.4771C6.98354 11.8032 9.93334 8.92587 13.5861 8.51762C19.7612 7.82746 26.144 7.82746 32.3191 8.51762C33.6056 8.66141 34.8049 9.11147 35.8376 9.79473C36.0409 9.92918 36.061 10.2149 35.8887 10.3872L34.2829 11.9929C34.1516 12.1243 33.9479 12.1464 33.7841 12.0586C33.2373 11.7656 32.6297 11.571 31.9859 11.4991C26.0322 10.8336 19.873 10.8336 13.9193 11.4991Z" />
 							<path
 								className="state-icon--done-path"
 								d="M38.8919 12.9195L21.9525 29.8588L17.0132 24.9195"
-								stroke-width="3"
-								stroke-linecap="round"
-								stroke-linejoin="round"
+								strokeWidth="3"
+								strokeLinecap="round"
+								strokeLinejoin="round"
 							/>
 						</svg>
 					) : (
-						<svg className="icon state-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+						<svg className="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 							<path
 								fillRule="evenodd"
 								clipRule="evenodd"
@@ -36,11 +85,13 @@ export function Task({ task: initialTask }: TaskProps) {
 						</svg>
 					)}
 				</div>
+				{/* task title */}
 				<h3>{task.title}</h3>
 			</header>
 
 			<div className="stats">
 				<div className="stat">
+					{/* row level */}
 					<div className="box-3 box-3--2">
 						<LevelIcon level={task.level} />
 					</div>
@@ -65,6 +116,7 @@ export function Task({ task: initialTask }: TaskProps) {
 
 			{task.progress > 0 && (
 				<footer>
+					{/* row progress done */}
 					<div className="progress">
 						<div className="progress-done" style={{ right: 100 - task.progress + "%" }}></div>
 					</div>
