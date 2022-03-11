@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import "../styles/form.scss";
 import { ILevel, ITask } from "../types";
 
@@ -12,12 +12,14 @@ interface TaskFormData {
 }
 
 interface TaskFormProps {
+	isFocus?: boolean;
 	onSubmit: (task: ITask) => void;
 }
 
-export function TaskForm({ onSubmit }: TaskFormProps) {
+export function TaskForm({ onSubmit, isFocus }: TaskFormProps) {
 	const [titleIndex, setTitleIndex] = useState<number>(Math.floor(Math.random() * taskTitles.length));
 	const today = new Date();
+	const inputRef = useRef<HTMLInputElement>(null);
 
 	function clearForm(form: HTMLFormElement) {
 		(form.elements as typeof form.elements & TaskFormData).level.forEach((lNode) => (lNode.checked = lNode.value == ILevel.Default ? true : false));
@@ -42,8 +44,14 @@ export function TaskForm({ onSubmit }: TaskFormProps) {
 		}
 	}
 
+	useEffect(() => {
+		if (isFocus) {
+			inputRef.current?.focus();
+		}
+	}, [isFocus]);
+
 	return (
-		<section>
+		<section className="form">
 			<h1>Create task</h1>
 			<form onSubmit={handleFormSubmit}>
 				<fieldset>
@@ -51,6 +59,7 @@ export function TaskForm({ onSubmit }: TaskFormProps) {
 						Task title
 					</label>
 					<input
+						ref={inputRef}
 						id="taskTitleInput"
 						className="input"
 						type="text"

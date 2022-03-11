@@ -1,0 +1,97 @@
+.slide {
+	position: fixed;
+	bottom: 100%;
+	z-index: 100;
+
+	&.slide--init {
+		// animation: showHandleBar 0.6s ease-out forwards;
+		transform: translateY(2rem);
+		transition: 0.6s ease-out;
+	}
+
+	&.slide--show {
+		// animation: showSlide 0.6s ease-in-out forwards;
+		transform: translateY(100%);
+		transition: 0.6s ease-in-out;
+	}
+
+	&.slide--hide {
+		// animation: hideSlide 0.4s ease-out forwards;
+		transform: translateY(2rem);
+		transition: 0.4s ease-out;
+	}
+
+	.btn {
+		position: absolute;
+		right: 2rem;
+		width: 3rem;
+		height: 3rem;
+		border: none;
+		border-radius: 50%;
+		cursor: pointer;
+
+		.btn-icon-stroke {
+			stroke: var(--color-body);
+			transform-origin: 50% 50%;
+
+			&.btn-icon-stroke--plus {
+				animation: transformClosePlus 0.25s linear forwards;
+			}
+
+			&.btn-icon-stroke--close {
+				animation: transformPlusClose 0.25s linear forwards;
+			}
+		}
+	}
+}
+
+@media (max-width: 480px) {
+	.slide {
+		.btn {
+			right: unset;
+			left: 1rem;
+		}
+	}
+}
+
+@keyframes showHandleBar {
+	to {
+		transform: translateY(2rem);
+	}
+}
+
+// @keyframes showSlide {
+// 	from {
+// 		transform: translateY(2rem);
+// 	}
+// 	to {
+// 		transform: translateY(100%);
+// 	}
+// }
+
+@keyframes hideSlide {
+	from {
+		transform: translateY(100%);
+	}
+	to {
+		transform: translateY(2rem);
+	}
+}
+
+@keyframes transformPlusClose {
+	from {
+		transform: rotate(0);
+	}
+	to {
+		transform: rotate(45deg);
+	}
+}
+
+@keyframes transformClosePlus {
+	from {
+		transform: rotate(45deg);
+	}
+	to {
+		transform: rotate(0);
+	}
+}

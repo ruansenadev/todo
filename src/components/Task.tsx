@@ -1,7 +1,7 @@
 import { ReactElement, useEffect, useRef, useState } from "react";
 import "../styles/task.scss";
 import { ILevel, ITask } from "../types";
-import { taskDateFormatter, useOnClickOutside } from "../utils";
+import { taskDateFormatter, useOnClickOutside, useOnPointerUp } from "../utils";
 
 interface TaskProps {
 	task: ITask;
@@ -17,6 +17,7 @@ export function Task({ task: initialTask, onChange, onDelete }: TaskProps) {
 	const [holdTimer, setHoldTimer] = useState<any>();
 
 	useOnClickOutside(taskRef, () => setIsActive(false));
+  useOnPointerUp(() => isHolding && setIsHolding(false));
 
   function handleDelete() {
     onDelete(task.id);
@@ -40,7 +41,6 @@ export function Task({ task: initialTask, onChange, onDelete }: TaskProps) {
 			className={`task${isActive ? " task--active" : ""}`}
 			tabIndex={0}
 			onPointerDown={() => setIsHolding(true)}
-			onPointerUp={() => setIsHolding(false)}
 		>
 			<header>
 				{isActive && (

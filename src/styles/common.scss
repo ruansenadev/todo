@@ -20,6 +20,14 @@ html {
 body {
   color: var(--color-body);
 }
+.container {
+  position: relative;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
 a {
   color: inherit;
   text-decoration: none;

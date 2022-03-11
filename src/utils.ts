@@ -22,3 +22,16 @@ export function useOnClickOutside(ref: MutableRefObject<HTMLElement | null>, han
 		};
 	}, [ref, handler]);
 }
+
+export function useOnPointerUp(handler: (event: PointerEvent) => void) {
+	useEffect(() => {
+		const listener = (event: PointerEvent) => {
+			handler(event);
+		};
+		document.addEventListener("pointerup", listener);
+
+		return () => {
+			document.removeEventListener("pointerup", listener);
+		};
+	}, [handler]);
+}
